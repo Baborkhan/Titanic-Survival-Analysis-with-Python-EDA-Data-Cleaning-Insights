@@ -1,222 +1,223 @@
-# 🚢 Titanic Survival Analysis — Complete Data Science Pipeline
-### EDA · Machine Learning · Hyperparameter Tuning · Interactive Dashboard · Kaggle Submission
+# 🚢 Titanic — Advanced Survival Analysis & Prediction
 
-![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
-![Pandas](https://img.shields.io/badge/Pandas-1.5+-green)
-![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.2+-orange?logo=scikit-learn)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.20+-red?logo=streamlit)
-![Plotly](https://img.shields.io/badge/Plotly-5.13+-purple?logo=plotly)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
-![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
-![Kaggle](https://img.shields.io/badge/Kaggle-Profile-20BEFF?logo=kaggle)
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-006600?style=for-the-badge)
+![LightGBM](https://img.shields.io/badge/LightGBM-4.0+-2B9E2B?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+
+**Deep-Dive EDA · 9 ML Models · XGBoost · LightGBM · Stacking · SHAP · 20 Engineered Features**
+
+[📓 View Notebook](#notebook-overview) · [📊 Key Results](#model-performance) · [🚀 Quick Start](#quick-start) · [📁 Project Structure](#project-structure) · [🔗 Kaggle Profile](https://www.kaggle.com/baborkhan)
+
+</div>
 
 ---
 
-## 📌 Overview
+## 📌 Project Overview
 
-A **research-grade, end-to-end Data Science project** on the RMS Titanic passenger dataset — from raw data exploration to a fully deployed interactive ML dashboard.
+A **production-grade** Titanic survival analysis that goes well beyond basic EDA. This notebook covers the full data science pipeline — from raw data audit to ensemble stacking — using industry-standard tools and rigorous cross-validation.
 
-This project is divided into **3 research notebooks** + **1 Streamlit web app**, covering every stage of a real-world data science workflow:
+| Property | Detail |
+|---|---|
+| **Dataset** | 891 passengers · 12 raw features → **20 engineered features** |
+| **Models** | XGBoost · LightGBM · Random Forest · Extra Trees · GBM · Logistic Reg · SVM · KNN · **Stacking** |
+| **Validation** | **10-Fold Stratified CV** · Calibration · Threshold Tuning |
+| **Best AUC** | **80.00%** (Logistic Regression, well-regularized) |
+| **New vs Baseline** | +XGBoost +LightGBM +KNN +Stacking +RobustScaler +Interaction Features |
 
-| Stage | Deliverable | Description |
-|-------|-------------|-------------|
-| **01** | `titanic_eda.ipynb` | Exploratory Data Analysis — 14 sections, 12 visualizations, hypothesis testing |
-| **02** | `titanic_ml_pipeline.ipynb` | ML Pipeline — 7 models, 5-fold CV, SHAP-like explainability, learning curves |
-| **03** | `titanic_hypertuning_kaggle.ipynb` | Hyperparameter Tuning + Kaggle `submission.csv` |
-| **04** | `ml_app.py` | Interactive Streamlit Dashboard — live predictions, ROC curves, feature importance |
+---
 
-> **Author:** Ahsanul Yamin Babor · [Kaggle](https://www.kaggle.com/ahsanulyaminbabor) · [GitHub](https://github.com/Baborkhan)
+## 🎯 Key Findings
+
+> **"Women survived 3× more than men (74% vs 19%). First-class passengers had 63% survival vs 24% for third class. Gender is the single strongest predictor of survival."**
+
+- 🔵 **Sex** is the #1 predictor — female survival rate 74% vs male 19%
+- 🟡 **Passenger Class** strongly separates outcomes (1st: 63% · 2nd: 47% · 3rd: 24%)
+- 🟢 **Age** matters: children (<12) had the highest survival rate
+- 🔴 **Family size** has a non-linear effect — solo travelers and large families both fared worse
+- 🟣 **Cabin/Deck** holders survived at 67% vs 30% without cabin
+- ⚪ **Fare** is strongly correlated (higher fare → higher class → better survival)
+
+---
+
+## 📊 Model Performance
+
+### 10-Fold Stratified Cross-Validation Results
+
+| # | Model | ROC-AUC | F1-Score | Accuracy | Train-CV Gap |
+|---|---|---|---|---|---|
+| 🥇 | **Logistic Regression** | **80.00%** | **66.7%** | 71.7% | 2% ← Low overfit |
+| 🥈 | Extra Trees | 78.14% | 62.0% | 71.5% | 19% |
+| 🥉 | Stacking Ensemble | 77.98% | 65.0% | 73.0% | 1% |
+| 4 | Random Forest | 77.82% | 61.9% | 73.9% | 17% |
+| 5 | SVM | 76.73% | 64.7% | 72.1% | 14% |
+| 6 | Gradient Boost | 76.36% | 58.8% | 72.7% | 11% |
+| 7 | XGBoost | 76.05% | 59.3% | 73.6% | 14% |
+| 8 | LightGBM | 74.80% | 59.3% | 73.1% | 12% |
+| 9 | KNN | 69.01% | 51.9% | 68.9% | 22% |
+
+> **Note:** Logistic Regression wins because of its extremely low bias-variance gap (2%). Tree-based models overfit more on this small dataset.
+
+---
+
+## 🔬 Notebook Overview
+
+```
+01  Environment Setup & Global Style
+02  Data Load & Audit
+03  Advanced Feature Engineering (20 features)
+04  Preprocessing — RobustScaler + Stratified Age Imputation
+05  Exploratory Data Analysis (12 visualizations)
+06  Statistical Hypothesis Testing (Chi-Square + Mann-Whitney U)
+07  Correlation & Mutual Information Analysis
+08  Model Definitions — 9 Classifiers (tuned hyperparameters)
+09  10-Fold Stratified Cross-Validation Results
+10  Model Comparison Visualizations
+11  ROC Curves — All 9 Models
+12  Confusion Matrices — Top 3 Models
+13  Learning Curves — Bias-Variance Diagnosis
+14  Permutation Feature Importance
+15  Threshold Optimization & Precision-Recall
+16  Model Calibration Analysis
+17  Final Summary & Insights
+```
+
+---
+
+## ⚙️ Feature Engineering (20 Features)
+
+### From 12 Raw → 20 Engineered
+
+| Feature | Description | Type |
+|---|---|---|
+| `Title_Enc` | Extracted from Name (Mr/Mrs/Miss/Master/Rare) | Categorical |
+| `Family_Size` | SibSp + Parch + 1 | Numeric |
+| `Is_Alone` | Family_Size == 1 | Binary |
+| `Family_Bracket` | Small/Medium/Large family group | Ordinal |
+| `Has_Cabin` | Cabin is known | Binary |
+| `Deck_Enc` | Deck letter A–G extracted from Cabin | Ordinal |
+| `Log_Fare` | log1p(Fare) — reduces right skew | Numeric |
+| `Fare_Per_Person` | Fare / Family_Size | Numeric |
+| `Fare_Bin` | Quartile-based fare bin | Ordinal |
+| `Sex_Enc` | Binary sex encoding | Binary |
+| `Embarked_Enc` | Port encoding (S/C/Q) | Categorical |
+| `Pclass_Sex` | **NEW** Interaction: class × gender | Interaction |
+| `Fare_x_Pclass` | **NEW** Log_Fare × Pclass | Interaction |
+| `Is_Child` | Age < 12 | Binary |
+| `Is_Senior` | Age > 60 | Binary |
+| `Age_x_Pclass` | **NEW** Age × Pclass (post-imputation) | Interaction |
+
+### Preprocessing
+- **RobustScaler** (median centering + IQR scaling) — handles outliers better than StandardScaler
+- **Stratified median imputation** for Age: grouped by Pclass × Sex to avoid information leakage
+
+---
+
+## 🚀 Quick Start
+
+### Requirements
+
+```bash
+pip install numpy pandas matplotlib seaborn scikit-learn xgboost lightgbm scipy jupyter
+```
+
+### Run Locally
+
+```bash
+# Clone the repository
+git clone https://github.com/Baborkhan/Titanic-Survival-Analysis-with-Python-EDA-Data-Cleaning-Insights.git
+cd Titanic-Survival-Analysis-with-Python-EDA-Data-Cleaning-Insights
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Launch notebook
+jupyter notebook titanic_advanced_analysis.ipynb
+```
+
+### Run on Kaggle
+
+1. Go to [Kaggle Titanic Competition](https://www.kaggle.com/c/titanic)
+2. Import this notebook
+3. Change data path from `data/titanic.csv` → `/kaggle/input/titanic/train.csv`
+4. Run all cells
 
 ---
 
 ## 📁 Project Structure
 
 ```
-titanic-eda/
+Titanic-Survival-Analysis/
 │
-├── titanic_eda.ipynb                ← Notebook 1: Research-grade EDA (14 sections)
-├── titanic_ml_pipeline.ipynb        ← Notebook 2: Full ML pipeline (19 sections)
-├── titanic_hypertuning_kaggle.ipynb ← Notebook 3: Hypertuning + Kaggle submission
-├── ml_app.py                        ← Streamlit interactive dashboard
-│
-├── data/
-│   └── titanic.csv                  ← Raw dataset (download separately from Kaggle)
-│
-├── plots/                           ← Auto-generated visualizations (12 files)
-│   ├── 01_data_quality.png
-│   ├── 02_survival_overview.png
-│   └── ...
-│
-├── models/                          ← Exported trained models (.pkl) — auto-created
-├── output/                          ← submission.csv output — auto-created
-├── requirements.txt
-├── .gitignore
-└── README.md
+├── titanic_advanced_analysis.ipynb   # Main notebook (35 cells, 17 sections)
+├── requirements.txt                  # Python dependencies
+├── README.md                         # This file
+└── data/
+    └── titanic.csv                   # Dataset (from Kaggle: titanic/train.csv)
 ```
 
 ---
 
-## 📊 Notebook 1 — Exploratory Data Analysis
+## 🛠️ Tech Stack
 
-**14-section research pipeline:**
-
-```
-01  Environment Setup & Configuration
-02  Data Acquisition & Inspection
-03  Data Quality Assessment          → Missing value audit + heatmap
-04  Data Cleaning & Feature Engineering → 8 new features
-05  Descriptive Statistics           → Extended stats + frequency tables
-06  Univariate — Categorical         → Count + proportion for all features
-07  Univariate — Numerical           → Histogram + KDE + Boxplot + Q-Q plot
-08  Bivariate Analysis               → Survival rate per feature
-09  Multivariate Analysis            → Gender×Class heatmap + FacetGrid
-10  Hypothesis Testing               → Chi-square, Mann-Whitney U, Point-Biserial
-11  Outlier Analysis                 → IQR method for all numerical features
-12  Correlation Analysis             → Full heatmap + feature-survival ranking
-13  Research Findings                → 8 data-driven conclusions
-14  ML Preprocessing Roadmap        → Action plan for model development
-```
-
-### Key Findings
-
-| Finding | Detail |
-|---------|--------|
-| **Gender** | Female: 74% survived · Male: 19% — strongest predictor (χ²=260.7, p<0.001) |
-| **Class** | 1st: 63% · 2nd: 47% · 3rd: 24% survived (χ²=102.9, p<0.001) |
-| **Fare** | Survivors paid significantly higher fares; skewness=4.79 → requires log-transform |
-| **Age** | Children (0–12): 58% · Seniors (60+): 27% · 19.9% missing values |
-| **Family Size** | Small families (2–4) highest survival — non-linear relationship |
-| **Has_Cabin** | Binary flag: 67% vs 30% survival — strong signal despite 77% raw missing |
-
-### Statistical Tests
-
-| Test | Variable | Result |
-|------|----------|--------|
-| Chi-Square | Sex vs Survived | χ²=260.7, p < 0.001 *** |
-| Chi-Square | Pclass vs Survived | χ²=102.9, p < 0.001 *** |
-| Chi-Square | Embarked vs Survived | χ²=26.5, p < 0.001 *** |
-| Mann-Whitney U | Age: Survived vs Not | p < 0.05 * |
-| Mann-Whitney U | Fare: Survived vs Not | p < 0.001 *** |
-| Point-Biserial r | Fare ~ Survived | r=0.257, p < 0.001 *** |
+| Library | Version | Purpose |
+|---|---|---|
+| `pandas` | 2.0+ | Data manipulation |
+| `numpy` | 1.24+ | Numerical computing |
+| `matplotlib` | 3.7+ | Base plotting |
+| `seaborn` | 0.12+ | Statistical visualization |
+| `scikit-learn` | 1.3+ | ML models, CV, preprocessing |
+| `xgboost` | 2.0+ | Gradient boosting |
+| `lightgbm` | 4.0+ | Fast gradient boosting |
+| `scipy` | 1.11+ | Statistical hypothesis tests |
 
 ---
 
-## 🤖 Notebook 2 — Full ML Pipeline
+## 📈 Statistical Hypothesis Testing
 
-**7 classifiers with 5-Fold Stratified Cross-Validation:**
+All features were validated with formal statistical tests:
 
-- Logistic Regression
-- SVM (RBF Kernel)
-- Random Forest
-- Extra Trees
-- Gradient Boosting
-- Decision Tree
-- Voting Ensemble (LR + RF + GB)
-
-**19 sections including:**
-- 14 engineered features (Title, FamilySize, IsAlone, FarePerPerson, AgeGroup, etc.)
-- Feature Importance (tree-based) + Permutation Importance (model-agnostic)
-- SHAP-like local explanations for individual passengers
-- Learning curves — bias-variance diagnosis for all 7 models
-- Decision Tree visualization (depth-4, interpretable)
-- Population-level feature contributions (200-sample analysis)
-
-### Typical Model Rankings (5-Fold CV ROC-AUC)
-
-| Rank | Model | ROC-AUC |
-|------|-------|---------|
-| 🥇 1 | Gradient Boosting | ~0.87 |
-| 🥈 2 | Voting Ensemble | ~0.87 |
-| 🥉 3 | Random Forest | ~0.86 |
-| 4 | Extra Trees | ~0.85 |
-| 5 | SVM | ~0.84 |
-| 6 | Logistic Regression | ~0.83 |
-| 7 | Decision Tree | ~0.79 |
+| Feature | Test | Result | Effect Size |
+|---|---|---|---|
+| Sex | Chi-Square | p < 0.001 ★★★ | Cramér's V = 0.54 |
+| Pclass | Chi-Square | p < 0.001 ★★★ | Cramér's V = 0.34 |
+| Embarked | Chi-Square | p < 0.001 ★★★ | Cramér's V = 0.11 |
+| Age | Mann-Whitney U | p < 0.001 ★★★ | r = 0.10 |
+| Fare | Mann-Whitney U | p < 0.001 ★★★ | r = 0.26 |
+| Family_Size | Mann-Whitney U | p = 0.015 ★ | r = 0.06 |
 
 ---
 
-## 🔧 Notebook 3 — Hyperparameter Tuning + Kaggle
+## 🔗 Related Links
 
-- **GridSearchCV**: Logistic Regression, Decision Tree, SVM
-- **RandomizedSearchCV**: Random Forest, Gradient Boosting, Extra Trees (n_iter=50–60)
-- Tuned vs Baseline comparison with full visualization
-- Voting Ensemble from top-3 tuned models
-- Kaggle test set prediction → `output/submission.csv` (418 passengers)
-- Full model export → `models/tuned_bundle.pkl`
-
----
-
-## 🖥️ Streamlit Dashboard
-
-Run: `streamlit run ml_app.py`
-
-| Page | Content |
-|------|---------|
-| 🏠 Home | KPI cards, model leaderboard, dataset overview |
-| 🤖 Model Comparison | ROC-AUC, F1, Accuracy for all 7 models |
-| 📈 ROC & PR Curves | Full ROC + Precision-Recall curves |
-| 🔍 Feature Importance | Tree-based + permutation importance |
-| 📉 Learning Curves | Bias-variance plots for all 7 models |
-| 🧩 Confusion Matrices | All 7 models, adjustable threshold |
-| 🔮 Live Prediction | Input passenger → survival probability |
-| 🧠 Explainability | Individual + population SHAP-like analysis |
-| 🔧 Hyperparameter Tuning | Interactive GridSearch/RandomizedSearch |
-| 🏅 Kaggle Submission | Upload test.csv → download submission.csv |
-| 💾 Export Models | Download trained models as .pkl |
-
----
-
-## ⚙️ Setup & Installation
-
-```bash
-# 1. Clone
-git clone https://github.com/Baborkhan/Titanic-Survival-Analysis-with-Python-EDA-Data-Cleaning-Insights.git
-cd Titanic-Survival-Analysis-with-Python-EDA-Data-Cleaning-Insights
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Download dataset from https://www.kaggle.com/c/titanic/data
-#    Rename train.csv → titanic.csv, place in data/
-
-# 4. Run notebooks in order
-jupyter notebook
-
-# 5. Launch dashboard
-streamlit run ml_app.py
-```
-
----
-
-## 🧰 Tools Used
-
-| Tool | Version | Purpose |
-|------|---------|---------|
-| Python | 3.10 | Core language |
-| Pandas | 1.5+ | Data manipulation |
-| NumPy | 1.23+ | Numerical computation |
-| Scikit-learn | 1.2+ | ML models, CV, metrics |
-| SciPy | 1.9+ | Hypothesis testing |
-| Matplotlib | 3.6+ | Base visualization |
-| Seaborn | 0.12+ | Statistical plots |
-| Plotly | 5.13+ | Interactive charts |
-| Streamlit | 1.20+ | Web dashboard |
+- 📊 **Kaggle Profile**: [kaggle.com/baborkhan](https://www.kaggle.com/baborkhan)
+- 🐙 **GitHub Profile**: [github.com/Baborkhan](https://github.com/Baborkhan)
+- 🏆 **Titanic Competition**: [kaggle.com/c/titanic](https://www.kaggle.com/c/titanic)
 
 ---
 
 ## 📄 License
 
-MIT License — free to use, modify, and distribute with attribution.
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 👤 Author
+## 🙏 Acknowledgements
 
-**Ahsanul Yamin Babor**
-
-[![Kaggle](https://img.shields.io/badge/Kaggle-ahsanulyaminbabor-20BEFF?logo=kaggle)](https://www.kaggle.com/ahsanulyaminbabor)
-[![GitHub](https://img.shields.io/badge/GitHub-Baborkhan-181717?logo=github)](https://github.com/Baborkhan)
+- Dataset: [Kaggle Titanic Competition](https://www.kaggle.com/c/titanic)
+- Inspired by the data science community's extensive Titanic analysis work
+- Built with open-source Python ecosystem
 
 ---
 
-*⭐ If this project helped you, please give it a star on GitHub!*
+<div align="center">
+
+**⭐ If this notebook helped you, please give it a star!**
+
+Made with ❤️ by [Baborkhan](https://github.com/Baborkhan)
+
+</div>
